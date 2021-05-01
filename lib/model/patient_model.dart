@@ -28,11 +28,11 @@ class Patient {
         status: json['status'],
         name: json['name'],
         lastName: json['lastName'],
-        phone: json['photo'],
+        phone: json['phone'],
         age: json['age'],
         address: json['address'],
         neighborhood: json['neighborhood'],
-        photo: json['phone'],
+        photo: json['photo'],
         city: json['city']);
   }
 }

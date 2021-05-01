@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/repository/patient_repository.dart';
-import 'package:parcial_two/ui/screen/patient_screen.dart';
 
 class PatientList extends StatefulWidget {
   final List<Patient> patients;

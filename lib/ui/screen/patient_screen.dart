@@ -4,6 +4,7 @@ import 'package:parcial_two/bloc/patient_bloc.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/repository/patient_repository.dart';
 import 'package:parcial_two/ui/screen/patient_register_screen.dart';
+import 'package:parcial_two/ui/screen/profile_patient.dart';
 import 'package:parcial_two/ui/widget/message_response.dart';
 
 class PatientScreen extends StatefulWidget {
@@ -45,7 +46,15 @@ class _PatientScreen extends State<PatientScreen> {
         itemCount: patients == null ? 0 : patients.length,
         itemBuilder: (context, posicion) {
           return ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfilePatient(
+                        patient: patients[posicion],
+                      ),
+                    ));
+              },
               leading: CircleAvatar(
                   backgroundColor: Colors.amber,
                   radius: 30.0,
