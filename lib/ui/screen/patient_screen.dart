@@ -4,6 +4,7 @@ import 'package:parcial_two/bloc/patient_bloc.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/repository/patient_repository.dart';
 import 'package:parcial_two/ui/screen/patient_register_screen.dart';
+import 'package:parcial_two/ui/widget/message_response.dart';
 
 class PatientScreen extends StatefulWidget {
   @override
@@ -25,7 +26,10 @@ class _PatientScreen extends State<PatientScreen> {
                       builder: (BuildContext context) => PatientRagister()))
               .then((value) {
             setState(() {
-              print(value);
+              if (value != null) {
+                messageResponde(
+                    context, 'El paciente ${value.name} a sido guardado');
+              }
             });
           });
           print('Registrar paciente...!');
@@ -91,12 +95,9 @@ class _PatientScreen extends State<PatientScreen> {
           ),
           TextButton(
             onPressed: () {
-              //this._usuarios.remove(user);
               deletePatient(patient.patientId).then((value) {
                 if (value.patientId != '') {
-                  setState(() {
-                    getPatient(context, patientBloc);
-                  });
+                  setState(() {});
                 }
               });
               Navigator.pop(context);

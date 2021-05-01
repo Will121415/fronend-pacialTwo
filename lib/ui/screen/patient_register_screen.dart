@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/repository/patient_repository.dart';
 import 'package:parcial_two/ui/widget/button_generic.dart';
+import 'package:parcial_two/ui/widget/message_response.dart';
 import 'package:parcial_two/ui/widget/text_field.dart';
 
 class PatientRagister extends StatefulWidget {
@@ -83,7 +84,7 @@ class _PatientRagister extends State<PatientRagister> {
 
                 addPatient(patient).then((patient) {
                   if (patient.patientId != '') {
-                    Navigator.pop(context);
+                    Navigator.pop(context, patient);
                   }
                 });
               },
