@@ -81,8 +81,9 @@ class _PatientList extends State<PatientList> {
               //this._usuarios.remove(user);
               deletePatient(patient.patientId).then((value) {
                 if (value.patientId != '') {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => PatientScreen()));
+                  setState(() {
+                    print(value);
+                  });
                 }
               });
               Navigator.pop(context);
