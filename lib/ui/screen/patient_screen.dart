@@ -53,7 +53,9 @@ class _PatientScreen extends State<PatientScreen> {
                       builder: (context) => ProfilePatient(
                         patient: patients[posicion],
                       ),
-                    ));
+                    )).then((value) {
+                  setState(() {});
+                });
               },
               leading: CircleAvatar(
                   backgroundColor: Colors.amber,
@@ -63,7 +65,10 @@ class _PatientScreen extends State<PatientScreen> {
                     style: TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                   )),
-              title: Text(patients[posicion].name),
+              title: Text(
+                patients[posicion].name + patients[posicion].lastName,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               subtitle: Text(
                 patients[posicion].status,
                 style: TextStyle(

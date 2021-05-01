@@ -67,3 +67,32 @@ Future<Patient> deletePatient(String patientId) async {
     throw Exception('Failed to Delete patient' + response.body);
   }
 }
+
+Future<Patient> modifyPatient(Patient patient) async {
+  var url =
+      Uri.parse('https://clinicabuendoctor.azurewebsites.net/api/Patient');
+
+  Map data = {
+    "patientId": "${patient.patientId}",
+    "name": "${patient.name}",
+    "lastName": "${patient.lastName}",
+    "photo": "${patient.photo}",
+    "age": "${patient.age}",
+    "address": "${patient.address}",
+    "neighborhood": "${patient.neighborhood}",
+    "phone": "${patient.phone}",
+    "city": "${patient.city}",
+    "status": "${patient.status}"
+  };
+  //encode Map to JSON
+  var body = json.encode(data);
+
+  var response = await http.put(url,
+      headers: {"Content-Type": "application/json"}, body: body);
+  if (response.statusCode == 200) {
+    return Patient.fromJson(jsonDecode(response.body));
+  } else {
+    print(response.statusCode);
+    throw Exception('Failed to modify patient');
+  }
+}
