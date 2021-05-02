@@ -39,7 +39,7 @@ class _ProfilePatient extends State<ProfilePatient> {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  ImageProfile(),
+                  ImageProfile(patient.photo),
                   Align(
                     alignment: Alignment.center,
                     child: Padding(

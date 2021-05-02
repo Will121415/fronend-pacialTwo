@@ -1,8 +1,10 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 class ImageProfile extends StatelessWidget {
-  // String urlImage;
-  // ImageProfile(this.urlImage);
+  String _image;
+  ImageProfile(this._image);
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -14,9 +16,16 @@ class ImageProfile extends StatelessWidget {
         color: Colors.blue,
         child: Card(
           elevation: 2,
-          // child: Image.network(urlImage),
+          child: Image.memory(
+            base64ToImage(_image),
+            fit: BoxFit.fill,
+          ),
         ),
       ),
     );
+  }
+
+  Uint8List base64ToImage(String base64Image) {
+    return Base64Codec().decode(base64Image);
   }
 }
