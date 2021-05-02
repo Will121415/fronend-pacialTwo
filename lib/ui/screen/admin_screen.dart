@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:parcial_two/ui/screen/attetion_staff_screen.dart';
 import 'package:parcial_two/ui/screen/patient_screen.dart';
 
+import 'appointment_screen.dart';
+
 class AdminScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -14,7 +16,8 @@ class _AdminScreen extends State<AdminScreen> {
 
   final List<Widget> widgetsChildren = [
     PatientScreen(),
-    AttentionStaffScreen()
+    AttentionStaffScreen(),
+    AppointmentScreen()
   ];
 
   void onTapTapped(int index) {
@@ -27,8 +30,7 @@ class _AdminScreen extends State<AdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            (indexTap != 1) ? Text('Paciente') : Text('Personal de atencion'),
+        title:selectTitle(indexTap),
       ),
       body: widgetsChildren[indexTap],
       bottomNavigationBar: Theme(
@@ -48,8 +50,17 @@ class _AdminScreen extends State<AdminScreen> {
                 icon: Icon(Icons.group_sharp),
                 label: 'p. atencion',
               ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list_alt),
+                label: 'Citas',
+              ),
             ]),
       ),
     );
+  }
+
+  selectTitle(int index){
+    var titles = ["Paciente","Personal de atencion","Citas"];
+    return Text(titles[index]);
   }
 }
