@@ -6,8 +6,6 @@ import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/repository/patient_repository.dart';
 import 'package:parcial_two/ui/widget/button_generic.dart';
 import 'package:parcial_two/ui/widget/text_field.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PatientRagister extends StatefulWidget {
@@ -27,7 +25,7 @@ class _PatientRagister extends State<PatientRagister> {
   TextEditingController ctrlNeighborhood;
   TextEditingController ctrlPhone;
   TextEditingController ctrlCity;
-  File Imagen;
+  File imagen;
 
   @override
   void initState() {
@@ -47,6 +45,7 @@ class _PatientRagister extends State<PatientRagister> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text('Registrar paciente'),
@@ -81,7 +80,7 @@ class _PatientRagister extends State<PatientRagister> {
                   status: 'Active',
                   name: ctrlName.text,
                   lastName: ctrlLastName.text,
-                  photo: Imagen==null?null:imageToBase64(Imagen),
+                  photo: imagen == null ? null : imageToBase64(imagen),
                   age: ctrlAge.text,
                   address: ctrlAddress.text,
                   neighborhood: ctrlNeighborhood.text,
@@ -108,8 +107,10 @@ class _PatientRagister extends State<PatientRagister> {
   }
 
   imagenSelect(context) {
-    return RaisedButton(
-      onPressed: () {},
+    return Container(
+      padding: EdgeInsets.all(5.0),
+      height: 200.0,
+      color: Colors.amber,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -118,15 +119,13 @@ class _PatientRagister extends State<PatientRagister> {
               _showChoiceDialog(context);
             },
             child: Container(
-              padding: EdgeInsets.all(20),
               child: Image(
-                image: Imagen != null
-                    ? FileImage(Imagen, scale: 0.1)
+                image: (imagen != null)
+                    ? FileImage(imagen, scale: 0.1)
                     : AssetImage('assets/No_image.png'),
-                fit: BoxFit.cover,
-                height: 180,
-                width: 280,
+                fit: BoxFit.fill,
               ),
+              width: 360,
             ),
           ),
         ],
@@ -137,7 +136,7 @@ class _PatientRagister extends State<PatientRagister> {
   _openGallery(BuildContext context) async {
     var picture = await ImagePicker().getImage(source: ImageSource.gallery);
     this.setState(() {
-      Imagen = File(picture.path);
+      imagen = File(picture.path);
     });
     Navigator.of(context).pop();
   }
@@ -145,7 +144,7 @@ class _PatientRagister extends State<PatientRagister> {
   _openCamera(BuildContext context) async {
     var picture = await ImagePicker().getImage(source: ImageSource.camera);
     this.setState(() {
-      Imagen = File(picture.path);
+      imagen = File(picture.path);
     });
 
     Navigator.of(context).pop();

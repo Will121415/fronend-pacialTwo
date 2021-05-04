@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:parcial_two/bloc/patient_bloc.dart';
@@ -57,16 +59,15 @@ class _PatientScreen extends State<PatientScreen> {
                   setState(() {});
                 });
               },
-              leading: CircleAvatar(
-                  backgroundColor: Colors.amber,
-                  radius: 30.0,
-                  child: Text(
-                    patients[posicion].name.substring(0, 1).toUpperCase(),
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  )),
+              leading: ClipRRect(
+                borderRadius: new BorderRadius.circular(30.0),
+                child: Image.memory(
+                  Base64Codec().decode(patients[posicion].photo),
+                  fit: BoxFit.cover,
+                ),
+              ),
               title: Text(
-                patients[posicion].name + patients[posicion].lastName,
+                patients[posicion].name + ' ' + patients[posicion].lastName,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
