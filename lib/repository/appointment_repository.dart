@@ -8,7 +8,20 @@ Future<List<Appointment>> listAppointment(http.Client client) async {
   final response = await http.get(
       Uri.parse('https://clinicabuendoctor.azurewebsites.net/api/Appointment'));
 
-  // Usa la función compute para ejecutar parsePhotos en un isolate separado
+  return compute(goToList, response.body);
+}
+
+Future<List<Appointment>> listAppointmentUserNull(http.Client client) async {
+  final response = await http.get(Uri.parse(
+      'https://clinicabuendoctor.azurewebsites.net/api/Appointment/UserNull'));
+
+  return compute(goToList, response.body);
+}
+
+Future<List<Appointment>> listAppointmentUserNoNull(http.Client client) async {
+  final response = await http.get(Uri.parse(
+      'https://clinicabuendoctor.azurewebsites.net/api/Appointment/UserNoNull'));
+
   return compute(goToList, response.body);
 }
 
@@ -22,10 +35,7 @@ Future<Appointment> addPatient(DateTime date, String idPatiente) async {
   var url =
       Uri.parse('https://clinicabuendoctor.azurewebsites.net/api/Appointment');
 
-  Map data = {
-    "date": "${date}",
-    "patientId": "${idPatiente}"
-  };
+  Map data = {"date": "${date}", "patientId": "${idPatiente}"};
 
   //encode Map to JSON
   var body = json.encode(data);

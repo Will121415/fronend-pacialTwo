@@ -15,7 +15,7 @@ class Appointment {
     return Appointment(
         AppointmentId: json['appointmentId'],
         Status: json['status'],
-        Date: json['date'],
+        Date: DateTime.parse(json['date']),
         patient: json['patient'],
     );
   }

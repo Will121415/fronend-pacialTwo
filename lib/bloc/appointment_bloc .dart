@@ -9,6 +9,13 @@ class AppointmentBloc implements Bloc {
     return listAppointment(client);
   }
 
+  Future<List<Appointment>> blocListAppointmentUserNull(http.Client client) {
+    return listAppointmentUserNull(client);
+  }
+  Future<List<Appointment>> blocListAppointmentUserNoNull(http.Client client) {
+    return listAppointmentUserNoNull(client);
+  }
+
   @override
   void dispose() {}
 }
