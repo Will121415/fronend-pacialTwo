@@ -8,6 +8,10 @@ class AppointmentBloc implements Bloc {
     return listAppointment(client);
   }
 
+  Future<List<Appointment>> blocFindByIdStaff(String attentionId) {
+    return findByIdStaff(attentionId);
+  }
+
   @override
   void dispose() {}
 }

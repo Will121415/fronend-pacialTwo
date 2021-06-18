@@ -19,7 +19,7 @@ class AttentionStaff {
       this.user});
   factory AttentionStaff.fromJson(Map<String, dynamic> json) {
     return AttentionStaff(
-      attentionId: json['userAttentionStaffId'],
+      attentionId: json['attentionId'],
       name: json['name'],
       lastName: json['lastName'],
       type: json['type'],

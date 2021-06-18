@@ -2,7 +2,7 @@ import 'package:parcial_two/model/patient_model.dart';
 
 class Appointment {
   final int appointmentId;
-  final DateTime date;
+  final String date;
   final String status;
   Patient patient;
   // final UserAttentionStaff;

@@ -17,6 +17,19 @@ List<Appointment> goToList(String responseBody) {
   return pasar.map<Appointment>((json) => Appointment.fromJson(json)).toList();
 }
 
+Future<List<Appointment>> findByIdStaff(String attentionId) async {
+  final http.Response response = await http.get(
+    Uri.parse(
+        'https://clinicabuendoctor.azurewebsites.net/api/Appointment/$attentionId'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+  print(response.body);
+
+  return compute(goToList, response.body);
+}
+
 Future<Appointment> addPatient(DateTime date, String idPatiente) async {
   var url =
       Uri.parse('https://clinicabuendoctor.azurewebsites.net/api/Appointment');

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parcial_two/bloc/sign_in_bloc.dart';
 import 'package:parcial_two/model/login_model.dart';
 import 'package:parcial_two/ui/screen/admin_screen.dart';
-import 'package:parcial_two/ui/screen/attetion_staff_screen.dart';
+import 'package:parcial_two/ui/screen/staff_screen.dart';
 import 'package:parcial_two/ui/widget/button_generic.dart';
 import 'package:parcial_two/ui/widget/gradient_back.dart';
 
@@ -73,7 +73,6 @@ class _SignInt extends State<SignIn> {
                           userName: controllerUser.text,
                           password: controllerPassword.text);
                       loginBloc.signInUser(l).then((login) {
-                        print(login);
                         if (login != null) {
                           correctData = true;
                           myShowDialog(
@@ -81,7 +80,8 @@ class _SignInt extends State<SignIn> {
                               'Has iniciado sesion como <${login.role.toUpperCase()}>',
                               Colors.amber,
                               'Bienvenido...!',
-                              login.role);
+                              login.role,
+                              login.userName);
                         } else {
                           correctData = false;
                           myShowDialog(
@@ -89,6 +89,7 @@ class _SignInt extends State<SignIn> {
                               'Sus credenciales son incorrectas',
                               Colors.amber,
                               'Error al iniciar seccion...!',
+                              '',
                               '');
                         }
                       });
@@ -158,7 +159,7 @@ class _SignInt extends State<SignIn> {
   }
 
   myShowDialog(BuildContext context, String message, Color colors,
-      String _title, String type) {
+      String _title, String type, String userName) {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -183,7 +184,7 @@ class _SignInt extends State<SignIn> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AttentionStaffScreen()));
+                          builder: (context) => StaffScreen(userName)));
                 }
               } else {
                 Navigator.pop(context);

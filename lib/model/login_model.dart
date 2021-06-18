@@ -8,7 +8,7 @@ class Login {
 
   factory Login.fromJson(Map<String, dynamic> json) {
     return Login(
-        userName: json['userName'],
+        userName: json['userId'],
         password: json['password'],
         status: json['status'],
         role: json['role']);

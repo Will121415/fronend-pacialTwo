@@ -14,7 +14,6 @@ Future<List<AttentionStaff>> listAttentionStaff(http.Client client) async {
 
 List<AttentionStaff> goToList(String responseBody) {
   final pasar = json.decode(responseBody).cast<Map<String, dynamic>>();
-
   return pasar
       .map<AttentionStaff>((json) => AttentionStaff.fromJson(json))
       .toList();

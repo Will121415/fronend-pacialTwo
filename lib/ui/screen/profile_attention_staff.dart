@@ -25,7 +25,7 @@ class _ProfileAttentionStaff extends State<ProfileAttentionStaff> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil del personal de atencion ' + staff.name),
+        title: Text('Perfil del PA ' + staff.name),
       ),
       body: ListView(
         children: [
