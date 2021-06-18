@@ -1,5 +1,4 @@
 import 'package:parcial_two/model/appointment_model.dart';
-import 'package:parcial_two/model/patient_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
@@ -29,6 +28,19 @@ List<Appointment> goToList(String responseBody) {
   final pasar = json.decode(responseBody).cast<Map<String, dynamic>>();
 
   return pasar.map<Appointment>((json) => Appointment.fromJson(json)).toList();
+}
+
+Future<List<Appointment>> findByIdStaff(String attentionId) async {
+  final http.Response response = await http.get(
+    Uri.parse(
+        'https://clinicabuendoctor.azurewebsites.net/api/Appointment/$attentionId'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+  print(response.body);
+
+  return compute(goToList, response.body);
 }
 
 Future<Appointment> addPatient(DateTime date, String idPatiente) async {

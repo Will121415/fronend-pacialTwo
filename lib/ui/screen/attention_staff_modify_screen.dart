@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:parcial_two/model/attention_staff_model.dart';
@@ -9,12 +10,14 @@ import 'package:parcial_two/ui/widget/button_generic.dart';
 import 'package:parcial_two/ui/widget/text_field.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AttentionStaffRegister extends StatefulWidget {
+class AttentionStaffModify extends StatefulWidget {
+  final AttentionStaff staff;
+  AttentionStaffModify({Key key, this.staff});
   @override
-  State<StatefulWidget> createState() => _AttentionStaffRegister();
+  State<StatefulWidget> createState() => _AttentionStaffModify();
 }
 
-class _AttentionStaffRegister extends State<AttentionStaffRegister> {
+class _AttentionStaffModify extends State<AttentionStaffModify> {
   //Controllers
   TextEditingController ctrlAttentionId;
   TextEditingController ctrlName;
@@ -25,19 +28,27 @@ class _AttentionStaffRegister extends State<AttentionStaffRegister> {
   TextEditingController ctrlUserName;
   TextEditingController ctrlPassword;
 
-  File imagen;
+  String photo;
+  File imageFile;
+  Uint8List imageUint8List;
+
+  bool isAvailable;
+  String statusTxt;
 
   @override
   void initState() {
     // Init Person
-    ctrlAttentionId = TextEditingController();
-    ctrlName = TextEditingController();
-    ctrlLastName = TextEditingController();
-    ctrlType = TextEditingController();
-    ctrlPhoto = TextEditingController();
-    ctrlServiceStatus = TextEditingController();
-    ctrlUserName = TextEditingController();
-    ctrlPassword = TextEditingController();
+    ctrlAttentionId = TextEditingController(text: widget.staff.attentionId);
+    ctrlName = TextEditingController(text: widget.staff.name);
+    ctrlLastName = TextEditingController(text: widget.staff.lastName);
+    ctrlType = TextEditingController(text: widget.staff.type);
+    ctrlUserName = TextEditingController(text: widget.staff.user.userName);
+    ctrlPassword = TextEditingController(text: widget.staff.user.password);
+
+    photo = widget.staff.photo;
+    imageUint8List = Base64Codec().decode(widget.staff.photo);
+    statusTxt = widget.staff.serviceStatus;
+    isAvailable = widget.staff.serviceStatus == 'available' ? true : false;
 
     super.initState();
   }
@@ -47,7 +58,7 @@ class _AttentionStaffRegister extends State<AttentionStaffRegister> {
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registrar paciente'),
+        title: Text('Modicicar personal de atencion'),
       ),
       body: Container(
         margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 30.0),
@@ -69,9 +80,19 @@ class _AttentionStaffRegister extends State<AttentionStaffRegister> {
             MyTextField(myController: ctrlType, myLabel: 'Tipo'),
             MyTextField(myController: ctrlUserName, myLabel: 'Usuario'),
             MyTextField(myController: ctrlPassword, myLabel: 'Contraseña'),
+            SwitchListTile(
+              title: Text('Esta disponible?'),
+              value: isAvailable,
+              onChanged: (bool value) {
+                setState(() {
+                  isAvailable = value;
+                });
+              },
+            ),
             ButtonGeneric(
-              title: 'Guardar',
+              title: 'Confirmar',
               onPressed: () {
+                statusTxt = isAvailable == true ? 'available' : 'occupied';
                 User _user = new User(
                     userName: ctrlUserName.text,
                     password: ctrlPassword.text,
@@ -82,13 +103,23 @@ class _AttentionStaffRegister extends State<AttentionStaffRegister> {
                   name: ctrlName.text,
                   lastName: ctrlLastName.text,
                   type: ctrlType.text,
-                  photo: imagen == null ? null : imageToBase64(imagen),
-                  serviceStatus: 'avaliable',
+                  photo: imageFile == null ? photo : imageToBase64(imageFile),
+                  serviceStatus: statusTxt,
                   user: _user,
                 );
 
-                addStaff(staff).then((staff) {
+                print(staff.serviceStatus);
+
+                modifyStaff(staff).then((staff) {
                   if (staff.attentionId != '') {
+                    print(staff.attentionId);
+                    print(staff.name);
+                    print(staff.type);
+                    print(staff.lastName);
+                    print(staff.serviceStatus);
+                    print(staff.user.userName);
+                    print(staff.user.password);
+                    print(staff.user.role);
                     Navigator.pop(context, staff);
                   }
                 });
@@ -114,14 +145,10 @@ class _AttentionStaffRegister extends State<AttentionStaffRegister> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () {
-              _showChoiceDialog(context);
-            },
+            onTap: () => _showChoiceDialog(context),
             child: Container(
-              child: Image(
-                image: (imagen != null)
-                    ? FileImage(imagen, scale: 0.1)
-                    : AssetImage('assets/No_image.png'),
+              child: Image.memory(
+                imageUint8List,
                 fit: BoxFit.fill,
               ),
               width: 360,
@@ -135,15 +162,20 @@ class _AttentionStaffRegister extends State<AttentionStaffRegister> {
   _openGallery(BuildContext context) async {
     var picture = await ImagePicker().getImage(source: ImageSource.gallery);
     this.setState(() {
-      imagen = File(picture.path);
+      loadImage(picture.path);
     });
     Navigator.of(context).pop();
+  }
+
+  loadImage(String path) {
+    imageFile = File(path);
+    imageUint8List = Base64Codec().decode(imageToBase64(imageFile));
   }
 
   _openCamera(BuildContext context) async {
     var picture = await ImagePicker().getImage(source: ImageSource.camera);
     this.setState(() {
-      imagen = File(picture.path);
+      loadImage(picture.path);
     });
 
     Navigator.of(context).pop();
@@ -161,8 +193,11 @@ class _AttentionStaffRegister extends State<AttentionStaffRegister> {
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  FlatButton(
-                      onPressed: () {
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  InkWell(
+                      onTap: () {
                         _openGallery(context);
                       },
                       child: Row(
@@ -171,8 +206,11 @@ class _AttentionStaffRegister extends State<AttentionStaffRegister> {
                           Text('  Elegir photo de la galeria'),
                         ],
                       )),
-                  FlatButton(
-                      onPressed: () {
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  InkWell(
+                      onTap: () {
                         _openCamera(context);
                       },
                       child: Row(

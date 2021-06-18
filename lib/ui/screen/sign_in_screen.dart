@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:parcial_two/bloc/sign_in_bloc.dart';
 import 'package:parcial_two/model/login_model.dart';
 import 'package:parcial_two/ui/screen/admin_screen.dart';
-import 'package:parcial_two/ui/screen/attetion_staff_screen.dart';
+import 'package:parcial_two/ui/screen/staff_screen.dart';
 import 'package:parcial_two/ui/widget/button_generic.dart';
+import 'package:parcial_two/ui/widget/gradient_back.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -38,18 +39,14 @@ class _SignInt extends State<SignIn> {
     final wallpaper = Container(
       width: size.width,
       height: size.height,
-      child: Image.network(
-        'https://i.pinimg.com/564x/45/bb/bf/45bbbf04a9873a44398629b41ef193d6.jpg',
-        fit: BoxFit.cover,
-      ),
+      child: GradientBack(),
     );
 
     final imageLogo = Padding(
       padding: EdgeInsets.all(15),
       child: CircleAvatar(
         radius: size.height * 0.10,
-        backgroundImage: NetworkImage(
-            'https://i.pinimg.com/564x/c1/d7/5b/c1d75b7e75f18881e542191d0c6c918d.jpg'),
+        backgroundColor: Colors.amber,
       ),
     );
 
@@ -76,7 +73,6 @@ class _SignInt extends State<SignIn> {
                           userName: controllerUser.text,
                           password: controllerPassword.text);
                       loginBloc.signInUser(l).then((login) {
-                        print(login);
                         if (login != null) {
                           correctData = true;
                           myShowDialog(
@@ -84,7 +80,8 @@ class _SignInt extends State<SignIn> {
                               'Has iniciado sesion como <${login.role.toUpperCase()}>',
                               Colors.amber,
                               'Bienvenido...!',
-                              login.role);
+                              login.role,
+                              login.userName);
                         } else {
                           correctData = false;
                           myShowDialog(
@@ -92,6 +89,7 @@ class _SignInt extends State<SignIn> {
                               'Sus credenciales son incorrectas',
                               Colors.amber,
                               'Error al iniciar seccion...!',
+                              '',
                               '');
                         }
                       });
@@ -161,7 +159,7 @@ class _SignInt extends State<SignIn> {
   }
 
   myShowDialog(BuildContext context, String message, Color colors,
-      String _title, String type) {
+      String _title, String type, String userName) {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -186,7 +184,7 @@ class _SignInt extends State<SignIn> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AttentionStaffScreen()));
+                          builder: (context) => StaffScreen(userName)));
                 }
               } else {
                 Navigator.pop(context);

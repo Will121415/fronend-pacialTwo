@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:parcial_two/bloc/appointment_bloc%20.dart';
-import 'package:parcial_two/bloc/patient_bloc.dart';
 import 'package:parcial_two/model/appointment_model.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/repository/patient_repository.dart';
 import 'package:parcial_two/ui/screen/patient_register_screen.dart';
-import 'package:parcial_two/ui/screen/profile_patient.dart';
 import 'package:parcial_two/ui/widget/message_response.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 

@@ -3,7 +3,7 @@ import 'package:parcial_two/ui/screen/sign_in_screen.dart';
 
 void main() {
   runApp(MyApp());
-}
+} 
 
 const MaterialColor white = const MaterialColor(
   0xFFFFFFFF,

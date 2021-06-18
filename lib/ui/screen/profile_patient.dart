@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/ui/screen/patient_modify_screen.dart';
 import 'package:parcial_two/ui/widget/image_profile.dart';
-import 'package:parcial_two/ui/widget/info_profile.dart';
+import 'package:parcial_two/ui/widget/info_profile_patient.dart';
 import 'package:parcial_two/ui/widget/message_response.dart';
 
 class ProfilePatient extends StatefulWidget {

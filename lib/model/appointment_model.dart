@@ -1,13 +1,13 @@
 import 'package:parcial_two/model/patient_model.dart';
 
 class Appointment {
-  final int AppointmentId;
-  final DateTime Date;
-  final String Status;
+  final int appointmentId;
+  final String date;
+  final String status;
   Patient patient;
   // final UserAttentionStaff;
 
-  Appointment({this.AppointmentId, this.Date, this.Status, patient}) {
+  Appointment({this.appointmentId, this.date, this.status, patient}) {
     this.patient = new Patient.fromJson(patient);
   }
 

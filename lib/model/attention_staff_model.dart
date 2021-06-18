@@ -23,6 +23,7 @@ class AttentionStaff {
       name: json['name'],
       lastName: json['lastName'],
       type: json['type'],
+      photo: json['photo'],
       serviceStatus: json['serviceStatus'],
       user: User.fromJson(json['user']),
     );
