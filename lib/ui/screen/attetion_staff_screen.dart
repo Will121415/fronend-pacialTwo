@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:parcial_two/bloc/attention_staff_bloc.dart';
 import 'package:parcial_two/model/attention_staff_model.dart';
+import 'package:parcial_two/repository/attention_staff_repository.dart';
 import 'package:parcial_two/ui/screen/attention_staff_register_screen.dart';
+import 'package:parcial_two/ui/screen/profile_attention_staff.dart';
+import 'package:parcial_two/ui/widget/message_response.dart';
 
 class AttentionStaffScreen extends StatefulWidget {
   @override
@@ -21,7 +26,15 @@ class _AttentionStaffScreen extends State<AttentionStaffScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => AttentionStaffRegister()));
+                  builder: (BuildContext context) =>
+                      AttentionStaffRegister())).then((value) => {
+                setState(() {
+                  if (value != null) {
+                    messageResponde(context,
+                        'El personal de atencion ${value.name} a sido guardado');
+                  }
+                })
+              });
         },
         tooltip: 'Registrar',
         child: Icon(Icons.add),
@@ -34,16 +47,22 @@ class _AttentionStaffScreen extends State<AttentionStaffScreen> {
         itemCount: attentionStaff == null ? 0 : attentionStaff.length,
         itemBuilder: (context, posicion) {
           return ListTile(
-              onTap: () {},
-              leading: CircleAvatar(
-                backgroundColor: Colors.amber,
-                child: Text(
-                  attentionStaff[posicion]
-                      .lastName
-                      .substring(0, 1)
-                      .toLowerCase(),
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileAttentionStaff(
+                        staff: attentionStaff[posicion],
+                      ),
+                    )).then((value) {
+                  setState(() {});
+                });
+              },
+              leading: ClipRRect(
+                borderRadius: new BorderRadius.circular(30.0),
+                child: Image.memory(
+                  Base64Codec().decode(attentionStaff[posicion].photo),
+                  fit: BoxFit.cover,
                 ),
               ),
               title: Text(
@@ -56,18 +75,58 @@ class _AttentionStaffScreen extends State<AttentionStaffScreen> {
                 attentionStaff[posicion].serviceStatus,
                 style: TextStyle(
                     color:
-                        (attentionStaff[posicion].serviceStatus == 'avaliable')
+                        (attentionStaff[posicion].serviceStatus == 'available')
                             ? Colors.green
                             : Colors.red),
               ),
               trailing: InkWell(
-                onTap: () => print('Eliminar Attention Staf'),
+                onTap: () => eliminarusuario(context, attentionStaff[posicion]),
                 child: Icon(
                   Icons.delete_forever,
                   color: Colors.red,
                 ),
               ));
         });
+  }
+
+  eliminarusuario(context, AttentionStaff staff) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('ELIMINAR PERSONAL DE ATENCION'),
+        backgroundColor: Colors.amber,
+        content: Text('¿Esta Seguro de Eliminar a: ' +
+            staff.name +
+            " " +
+            staff.lastName +
+            '?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              'CANCELAR',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              deleteAttentionStaff(staff.attentionId).then((value) {
+                if (value.attentionId != '') {
+                  setState(() {});
+                }
+              });
+              Navigator.pop(context);
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(color: Colors.blue),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget getAttentionStaff(

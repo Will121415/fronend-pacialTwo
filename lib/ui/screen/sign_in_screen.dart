@@ -4,6 +4,7 @@ import 'package:parcial_two/model/login_model.dart';
 import 'package:parcial_two/ui/screen/admin_screen.dart';
 import 'package:parcial_two/ui/screen/attetion_staff_screen.dart';
 import 'package:parcial_two/ui/widget/button_generic.dart';
+import 'package:parcial_two/ui/widget/gradient_back.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -38,18 +39,14 @@ class _SignInt extends State<SignIn> {
     final wallpaper = Container(
       width: size.width,
       height: size.height,
-      child: Image.network(
-        'https://i.pinimg.com/564x/45/bb/bf/45bbbf04a9873a44398629b41ef193d6.jpg',
-        fit: BoxFit.cover,
-      ),
+      child: GradientBack(),
     );
 
     final imageLogo = Padding(
       padding: EdgeInsets.all(15),
       child: CircleAvatar(
         radius: size.height * 0.10,
-        backgroundImage: NetworkImage(
-            'https://i.pinimg.com/564x/c1/d7/5b/c1d75b7e75f18881e542191d0c6c918d.jpg'),
+        backgroundColor: Colors.amber,
       ),
     );
 

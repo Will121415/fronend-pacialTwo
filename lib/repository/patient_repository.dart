@@ -86,6 +86,7 @@ Future<Patient> modifyPatient(Patient patient) async {
   };
   //encode Map to JSON
   var body = json.encode(data);
+  print(body);
 
   var response = await http.put(url,
       headers: {"Content-Type": "application/json"}, body: body);

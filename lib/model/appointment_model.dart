@@ -1,22 +1,22 @@
 import 'package:parcial_two/model/patient_model.dart';
 
 class Appointment {
-  final int AppointmentId;
-  final DateTime Date;
-  final String Status;
+  final int appointmentId;
+  final DateTime date;
+  final String status;
   Patient patient;
   // final UserAttentionStaff;
 
-  Appointment({this.AppointmentId, this.Date, this.Status, patient}) {
+  Appointment({this.appointmentId, this.date, this.status, patient}) {
     this.patient = new Patient.fromJson(patient);
   }
 
   factory Appointment.fromJson(Map<String, dynamic> json) {
     return Appointment(
-        AppointmentId: json['appointmentId'],
-        Status: json['status'],
-        Date: json['date'],
-        patient: json['patient'],
+      appointmentId: json['appointmentId'],
+      status: json['status'],
+      date: json['date'],
+      patient: json['patient'],
     );
   }
 }

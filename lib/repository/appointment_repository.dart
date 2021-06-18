@@ -1,5 +1,4 @@
 import 'package:parcial_two/model/appointment_model.dart';
-import 'package:parcial_two/model/patient_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
@@ -22,10 +21,7 @@ Future<Appointment> addPatient(DateTime date, String idPatiente) async {
   var url =
       Uri.parse('https://clinicabuendoctor.azurewebsites.net/api/Appointment');
 
-  Map data = {
-    "date": "${date}",
-    "patientId": "${idPatiente}"
-  };
+  Map data = {"date": "$date", "patientId": "$idPatiente"};
 
   //encode Map to JSON
   var body = json.encode(data);

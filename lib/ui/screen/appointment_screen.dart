@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:parcial_two/bloc/appointment_bloc%20.dart';
-import 'package:parcial_two/bloc/patient_bloc.dart';
 import 'package:parcial_two/model/appointment_model.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/repository/patient_repository.dart';
 import 'package:parcial_two/ui/screen/patient_register_screen.dart';
-import 'package:parcial_two/ui/screen/profile_patient.dart';
 import 'package:parcial_two/ui/widget/message_response.dart';
 
 class AppointmentScreen extends StatefulWidget {
@@ -53,19 +51,21 @@ class _AppointmentScreen extends State<AppointmentScreen> {
                   backgroundColor: Colors.amber,
                   radius: 30.0,
                   child: Text(
-                    appointments[posicion].patient.name.substring(0, 1).toUpperCase(),
+                    appointments[posicion]
+                        .patient
+                        .name
+                        .substring(0, 1)
+                        .toUpperCase(),
                     style: TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                   )),
-              title: Text("Cita n°: "+
-                appointments[posicion].AppointmentId.toString(),
+              title: Text(
+                "Cita n°: " + appointments[posicion].appointmentId.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(
-                appointments[posicion].Status,
-                style: TextStyle(
-                    color: AsignarColor(appointments[posicion].Status))
-              ),
+              subtitle: Text(appointments[posicion].status,
+                  style: TextStyle(
+                      color: asignarColor(appointments[posicion].status))),
               trailing: InkWell(
                 onTap: () {},
                 child: Icon(
@@ -116,7 +116,8 @@ class _AppointmentScreen extends State<AppointmentScreen> {
     );
   }
 
-  Widget getAppointmentBloc(BuildContext context, AppointmentBloc appointmentBloc) {
+  Widget getAppointmentBloc(
+      BuildContext context, AppointmentBloc appointmentBloc) {
     return FutureBuilder(
       future: appointmentBloc.blocListAppointment(http
           .Client()), //En esta línea colocamos el el objeto Future que estará esperando una respuesta
@@ -157,15 +158,14 @@ class _AppointmentScreen extends State<AppointmentScreen> {
     );
   }
 
-  AsignarColor(String _status){
+  asignarColor(String _status) {
     var status = {
-      "Asignado":Colors.orange,
-      "No Atendido":Colors.orangeAccent,
-      "En Servicio":Colors.yellow,
-      "Atendido":Colors.green,
-      "Anulada":Colors.red
+      "Asignado": Colors.orange,
+      "No Atendido": Colors.orangeAccent,
+      "En Servicio": Colors.yellow,
+      "Atendido": Colors.green,
+      "Anulada": Colors.red
     };
     return status[_status];
-
   }
 }
