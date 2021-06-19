@@ -29,24 +29,36 @@ class _AppointmentScreen extends State<AppointmentScreen> {
             overlayColor: Colors.grey,
             children: [
               SpeedDialChild(
-                child: Icon(Icons.person_remove_alt_1_outlined),
+                backgroundColor: Colors.amber,
+                child: Icon(
+                  Icons.person_remove_alt_1_outlined,
+                  color: Colors.black,
+                ),
                 label: 'citas sin personal asignado',
+                labelBackgroundColor: Colors.amber,
                 onTap: () {
                   option = 1;
                   setState(() {});
                 },
               ),
               SpeedDialChild(
-                child: Icon(Icons.fact_check),
+                backgroundColor: Colors.amber,
+                child: Icon(Icons.fact_check, color: Colors.black),
                 label: 'Citas con informacion completa',
+                labelBackgroundColor: Colors.amber,
                 onTap: () {
                   option = 2;
                   setState(() {});
                 },
               ),
               SpeedDialChild(
-                child: Icon(Icons.all_inbox),
+                backgroundColor: Colors.amber,
+                child: Icon(
+                  Icons.all_inbox,
+                  color: Colors.black,
+                ),
                 label: 'Todas las citas',
+                labelBackgroundColor: Colors.amber,
                 onTap: () {
                   option = 0;
                   setState(() {});
@@ -98,46 +110,6 @@ class _AppointmentScreen extends State<AppointmentScreen> {
                 ),
               ));
         });
-  }
-
-  eliminarusuario(context, Patient patient) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('ELIMINAR PACIENTE'),
-        backgroundColor: Colors.amber,
-        content: Text('¿Esta Seguro de Eliminar a: ' +
-            patient.name +
-            " " +
-            patient.lastName +
-            '?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'CANCELAR',
-              style: TextStyle(color: Colors.red),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              deletePatient(patient.patientId).then((value) {
-                if (value.patientId != '') {
-                  setState(() {});
-                }
-              });
-              Navigator.pop(context);
-            },
-            child: Text(
-              'OK',
-              style: TextStyle(color: Colors.blue),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget getAppointmentBloc(
