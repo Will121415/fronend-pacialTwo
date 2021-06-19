@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:parcial_two/bloc/appointment_bloc%20.dart';
+import 'package:parcial_two/bloc/patient_bloc.dart';
 import 'package:parcial_two/model/appointment_model.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/repository/patient_repository.dart';
 import 'package:parcial_two/ui/screen/patient_register_screen.dart';
+import 'package:parcial_two/ui/screen/profile_patient.dart';
 import 'package:parcial_two/ui/widget/message_response.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -23,28 +25,9 @@ class _AppointmentScreen extends State<AppointmentScreen> {
         body: getAppointmentBloc(context, appointmentBloc, option),
         floatingActionButton: SpeedDial(
             icon: Icons.menu,
-            backgroundColor: Color.fromRGBO(219,163,6,1),
+            backgroundColor: Colors.amber,
+            overlayColor: Colors.grey,
             children: [
-              
-              SpeedDialChild(
-                child: Icon(Icons.save_alt),
-                label: 'Registrar cita',
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              PatientRagister())).then((value) {
-                    setState(() {
-                      if (value != null) {
-                        messageResponde(context,
-                            'El paciente ${value.name} a sido guardado');
-                      }
-                    });
-                  });
-                  print('Registrar paciente...!');
-                },
-              ),
               SpeedDialChild(
                 child: Icon(Icons.person_remove_alt_1_outlined),
                 label: 'citas sin personal asignado',
@@ -62,7 +45,7 @@ class _AppointmentScreen extends State<AppointmentScreen> {
                 },
               ),
               SpeedDialChild(
-                child: Icon(Icons.all_inbox ),
+                child: Icon(Icons.all_inbox),
                 label: 'Todas las citas',
                 onTap: () {
                   option = 0;
@@ -91,12 +74,12 @@ class _AppointmentScreen extends State<AppointmentScreen> {
                         color: Colors.black, fontWeight: FontWeight.bold),
                   )),
               title: Text(
-                "Cita n°: " + appointments[posicion].AppointmentId.toString(),
+                "Cita n°: " + appointments[posicion].appointmentId.toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(appointments[posicion].Status,
+              subtitle: Text(appointments[posicion].status,
                   style: TextStyle(
-                      color: AsignarColor(appointments[posicion].Status))),
+                      color: AsignarColor(appointments[posicion].status))),
               trailing: InkWell(
                 onTap: () {},
                 child: Icon(
@@ -182,9 +165,9 @@ class _AppointmentScreen extends State<AppointmentScreen> {
                     ),
                   )
                 : Container(
-                  alignment: Alignment.center,
-                  child: Text("No hay datos"),
-                );
+                    alignment: Alignment.center,
+                    child: Text("No hay datos"),
+                  );
           default:
             return Text('Presiona el boton para recargar');
         }
@@ -204,6 +187,8 @@ class _AppointmentScreen extends State<AppointmentScreen> {
   }
 
   optionSelect(AppointmentBloc appointmentBloc, int option) {
+    ;
+
     switch (option) {
       case 0:
         return appointmentBloc.blocListAppointment(http.Client());
@@ -214,5 +199,23 @@ class _AppointmentScreen extends State<AppointmentScreen> {
       default:
         return appointmentBloc.blocListAppointment(http.Client());
     }
+  }
+
+  _showChoiceDialog(BuildContext context) {
+    TextEditingController Fecha = TextEditingController();
+    TextEditingController IdDeEstudiante = TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              title: Text("Elegir foto"),
+              content: SingleChildScrollView(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[],
+              )));
+        });
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flushbar/flushbar.dart';
+import 'package:parcial_two/bloc/appointment_bloc%20.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/ui/screen/patient_modify_screen.dart';
 import 'package:parcial_two/ui/widget/image_profile.dart';
 import 'package:parcial_two/ui/widget/info_profile_patient.dart';
 import 'package:parcial_two/ui/widget/message_response.dart';
+import 'dart:developer';
 
 class ProfilePatient extends StatefulWidget {
   final Patient patient;
@@ -14,7 +17,8 @@ class ProfilePatient extends StatefulWidget {
 
 class _ProfilePatient extends State<ProfilePatient> {
   Patient patient;
-
+  DateTime selectedDate = DateTime.now();
+  AppointmentBloc _appointmentBloc = new AppointmentBloc();
   @override
   void initState() {
     patient = widget.patient;
@@ -103,6 +107,49 @@ class _ProfilePatient extends State<ProfilePatient> {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _selectDate(context),
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.amber,
+      ),
     );
+  }
+
+  _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate, // Refer step 1
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2025),
+      initialEntryMode: DatePickerEntryMode.input,
+      fieldLabelText: 'Fecha de la cita',
+      fieldHintText: 'Month/Date/Year',
+      confirmText: 'Agregar cita',
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+      _appointmentBloc
+          .blocAddAppointment(selectedDate, patient.patientId)
+          .then((value) {
+        //log('data: $value');
+
+        if (value != null) {
+          Flushbar(
+            title: 'Información',
+            message:
+                'se registro la cita exitosamente para la fecha ${value.date}',
+            icon: Icon(
+              Icons.check_circle_outline,
+              size: 28,
+              color: Colors.blue.shade300,
+            ),
+            leftBarIndicatorColor: Colors.blue.shade300,
+            duration: Duration(seconds: 12),
+          )..show(context);
+        }
+      });
+    }
   }
 }

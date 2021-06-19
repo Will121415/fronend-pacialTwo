@@ -38,7 +38,7 @@ class _ViewAppointment extends State<ViewAppointment> {
               ),
             ),
             subtitle: Text(
-              appointments[posicion].date,
+              appointments[posicion].date.toString(),
               style: TextStyle(color: Colors.black87),
             ),
             title: Text(
