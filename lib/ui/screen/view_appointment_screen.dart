@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:parcial_two/bloc/appointment_bloc%20.dart';
 import 'package:parcial_two/model/appointment_model.dart';
+import 'package:parcial_two/ui/screen/info_appointment_screen.dart';
+import 'package:parcial_two/ui/widget/message_response.dart';
 
 class ViewAppointment extends StatefulWidget {
   String attentionId;
@@ -27,7 +29,17 @@ class _ViewAppointment extends State<ViewAppointment> {
         itemCount: appointments == null ? 0 : appointments.length,
         itemBuilder: (context, posicion) {
           return ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => InfoAppointment(
+                      appointment: appointments[posicion],
+                    ),
+                  )).then((value) {
+                setState(() {});
+              });
+            },
             leading: CircleAvatar(
               backgroundColor: Colors.amber,
               radius: 30.0,
