@@ -7,7 +7,7 @@ class AttentionStaff {
   final String type;
   final String photo;
   final String serviceStatus;
-  final User user;
+  User user;
 
   AttentionStaff(
       {this.attentionId,
@@ -16,7 +16,9 @@ class AttentionStaff {
       this.type,
       this.photo,
       this.serviceStatus,
-      this.user});
+      user}) {
+    this.user = (user != null) ? new User.fromJson(user) : null;
+  }
   factory AttentionStaff.fromJson(Map<String, dynamic> json) {
     return AttentionStaff(
       attentionId: json['attentionId'],
@@ -25,7 +27,7 @@ class AttentionStaff {
       type: json['type'],
       photo: json['photo'],
       serviceStatus: json['serviceStatus'],
-      user: User.fromJson(json['user']),
+      user: json['user'],
     );
   }
 }

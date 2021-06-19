@@ -6,7 +6,7 @@ import 'package:parcial_two/model/appointment_model.dart';
 import 'package:parcial_two/model/patient_model.dart';
 import 'package:parcial_two/repository/patient_repository.dart';
 import 'package:parcial_two/ui/screen/patient_register_screen.dart';
-import 'package:parcial_two/ui/screen/profile_patient.dart';
+import 'package:parcial_two/ui/screen/appointment_description.dart';
 import 'package:parcial_two/ui/widget/message_response.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -60,7 +60,17 @@ class _AppointmentScreen extends State<AppointmentScreen> {
         itemCount: appointments == null ? 0 : appointments.length,
         itemBuilder: (context, posicion) {
           return ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AppointmentDescription(
+                        appointment: appointments[posicion],
+                      ),
+                    )).then((value) {
+                  setState(() {});
+                });
+              },
               leading: CircleAvatar(
                   backgroundColor: Colors.amber,
                   radius: 30.0,

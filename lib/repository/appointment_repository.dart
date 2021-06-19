@@ -65,49 +65,20 @@ Future<Appointment> addPatient(DateTime date, String idPatiente) async {
   }
 }
 
-// Future<Patient> deletePatient(String patientId) async {
-//   print(patientId);
-//   final http.Response response = await http.delete(
-//     Uri.parse(
-//         'https://clinicabuendoctor.azurewebsites.net/api/Patient/$patientId'),
-//     headers: <String, String>{
-//       'Content-Type': 'application/json; charset=UTF-8',
-//     },
-//   );
+Future<Appointment> AssignAppointment(
+    int appointmentId, String idUserStaff) async {
+  final http.Response response = await http.put(
+    Uri.parse(
+        'https://clinicabuendoctor.azurewebsites.net/api/Appointment/api/Appointment/AssignAppointment?appointmentId=${appointmentId}&IduserStaff=${idUserStaff}'),
+    headers: <String, String>{
+      'accept': 'text/plain',
+    },
+  );
 
-//   if (response.statusCode == 200) {
-//     return Patient.fromJson(jsonDecode(response.body));
-//   } else {
-//     print(response.statusCode);
-//     throw Exception('Failed to Delete patient' + response.body);
-//   }
-// }
-
-// Future<Patient> modifyPatient(Patient patient) async {
-//   var url =
-//       Uri.parse('https://clinicabuendoctor.azurewebsites.net/api/Patient');
-
-//   Map data = {
-//     "patientId": "${patient.patientId}",
-//     "name": "${patient.name}",
-//     "lastName": "${patient.lastName}",
-//     "photo": "${patient.photo}",
-//     "age": "${patient.age}",
-//     "address": "${patient.address}",
-//     "neighborhood": "${patient.neighborhood}",
-//     "phone": "${patient.phone}",
-//     "city": "${patient.city}",
-//     "status": "${patient.status}"
-//   };
-//   //encode Map to JSON
-//   var body = json.encode(data);
-
-//   var response = await http.put(url,
-//       headers: {"Content-Type": "application/json"}, body: body);
-//   if (response.statusCode == 200) {
-//     return Patient.fromJson(jsonDecode(response.body));
-//   } else {
-//     print(response.statusCode);
-//     throw Exception('Failed to modify patient');
-//   }
-// }
+  if (response.statusCode == 200) {
+    return Appointment.fromJson(jsonDecode(response.body));
+  } else {
+    print(response.statusCode);
+    throw Exception('Failed to Delete patient' + response.body);
+  }
+}

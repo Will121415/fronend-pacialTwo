@@ -24,6 +24,9 @@ class AppointmentBloc implements Bloc {
   Future<Appointment> blocAddAppointment(DateTime date, String patientID) {
     return addPatient(date, patientID);
   }
+  Future<Appointment> blocAssignAppointment(int appointmentId, String idUserStaff) {
+    return AssignAppointment(appointmentId,idUserStaff);
+  }
 
   @override
   void dispose() {}

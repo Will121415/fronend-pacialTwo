@@ -133,13 +133,11 @@ class _ProfilePatient extends State<ProfilePatient> {
       _appointmentBloc
           .blocAddAppointment(selectedDate, patient.patientId)
           .then((value) {
-        //log('data: $value');
-
         if (value != null) {
           Flushbar(
             title: 'Información',
             message:
-                'se registro la cita exitosamente para la fecha ${value.date}',
+                'se registro la cita exitosamente para la fecha ${value.date} y el numero de la cita es ${value.appointmentId}',
             icon: Icon(
               Icons.check_circle_outline,
               size: 28,

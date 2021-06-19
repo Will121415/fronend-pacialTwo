@@ -134,9 +134,11 @@ class _AttentionStaffRegister extends State<AttentionStaffRegister> {
 
   _openGallery(BuildContext context) async {
     var picture = await ImagePicker().getImage(source: ImageSource.gallery);
-    this.setState(() {
-      imagen = File(picture.path);
-    });
+    if (picture.path != null) {
+      this.setState(() {
+        imagen = File(picture.path);
+      });
+    }
     Navigator.of(context).pop();
   }
 
