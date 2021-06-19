@@ -43,11 +43,33 @@ Future<List<Appointment>> findByIdStaff(String attentionId) async {
   return compute(goToList, response.body);
 }
 
+Future<Appointment> changeStatus(int appointmentId, int status) async {
+  print(appointmentId);
+  print(status);
+
+  var url = Uri.parse(
+      'https://clinicabuendoctor.azurewebsites.net/api/Appointment/ChanceState');
+
+  Map data = {"appointmentId": "$appointmentId", "status": "$status"};
+
+  var body = json.encode(data);
+  print(body);
+
+  var response = await http.put(url,
+      headers: {"Content-Type": "application/json"}, body: body);
+  if (response.statusCode == 200) {
+    return Appointment.fromJson(jsonDecode(response.body));
+  } else {
+    print(response.statusCode);
+    throw Exception('Failed to ChangeStatus Appointment');
+  }
+}
+
 Future<Appointment> addPatient(DateTime date, String idPatiente) async {
   var url =
       Uri.parse('https://clinicabuendoctor.azurewebsites.net/api/Appointment');
 
-  Map data = {"date": "${date}", "patientId": "${idPatiente}"};
+  Map data = {"date": "$date", "patientId": "$idPatiente"};
 
   //encode Map to JSON
   var body = json.encode(data);
